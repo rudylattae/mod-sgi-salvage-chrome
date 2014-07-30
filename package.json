@@ -1,0 +1,27 @@
+{
+  "name": "mod-sgi-salvage-chrome",
+  "version": "0.0.1",
+  "description": "SGI Salvage bids with some tweaks and improvements.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rudylattae/mod-sgi-salvage-chrome.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rudylattae/mod-sgi-salvage-chrome/issues"
+  },
+  "homepage": "https://github.com/rudylattae/mod-sgi-salvage-chrome",
+  "devDependencies": {
+    "gulp": "^3.8.6",
+    "gulp-jshint": "^1.8.2",
+    "gulp-size": "^1.0.0",
+    "gulp-zip": "^0.4.0",
+    "jshint-stylish": "^0.4.0",
+    "tiny-lr": "0.0.9"
+  }
+}
