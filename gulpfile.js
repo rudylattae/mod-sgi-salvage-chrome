@@ -4,12 +4,14 @@ var gulp = require('gulp'),
   tinylr = require('tiny-lr'),
   jshint = require('gulp-jshint'),
   zip = require('gulp-zip'),
-  size = require('gulp-size');
+  size = require('gulp-size'),
+  bump = require('gulp-bump')
+  git = require('gulp-git');
 
 
 var paths = {
   pkg: './package.json',
-  manifest: './src/manifest',
+  manifest: './src/manifest.json',
   src: './src',
   dist: './dist',
   allFiles: '/*',
@@ -23,15 +25,15 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('package', ['lint'], function() {
-  var manifest = require(paths.manifest),
-    packageArchiveName = manifest.name + '-' + manifest.version + '.zip';
-
-  return gulp.src([paths.src + paths.allFiles])
-    .pipe(zip(packageArchiveName))
-    .pipe(size())
-    .pipe(gulp.dest(paths.dist));
+gulp.task('bump-version', function() {
+  return gulp.src([paths.pkg, paths.manifest])
+    .pipe(bump())
+    .pipe(gulp.dest('./'));
 });
+
+
+// develop
+// ========
 
 gulp.task('dev', function () {
   var lr = tinylr();
@@ -44,4 +46,32 @@ gulp.task('dev', function () {
       }
     });
   });
+});
+
+
+// package
+// ========
+gulp.task('package', ['lint'], function() {
+  var manifest = require(paths.manifest),
+    packageArchiveName = manifest.name + '-' + manifest.version + '.zip';
+
+  return gulp.src([paths.src + paths.allFiles])
+    .pipe(zip(packageArchiveName))
+    .pipe(size())
+    .pipe(gulp.dest(paths.dist));
+});
+
+
+// ship
+// =====
+
+gulp.task('tag-release', function () {
+  var version = 'v' + pkg.version,
+    message = 'Release ' + version;
+
+  return gulp.src('./')
+    .pipe(git.commit(message))
+    .pipe(git.tag(version, message))
+    .pipe(git.push('origin', 'master', '--tags'))
+    .pipe(gulp.dest('./'));
 });
