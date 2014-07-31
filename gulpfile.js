@@ -5,7 +5,7 @@ var gulp = require('gulp'),
   jshint = require('gulp-jshint'),
   zip = require('gulp-zip'),
   size = require('gulp-size'),
-  bump = require('gulp-bump')
+  bump = require('gulp-bump'),
   git = require('gulp-git');
 
 
