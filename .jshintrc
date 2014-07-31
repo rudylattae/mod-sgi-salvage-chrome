@@ -17,9 +17,12 @@
   "quotmark": "single",
   "indent": 2,
   "node": true,
+  "multistr": true,
   "globals": {
     "window": true,
+    "document": true,
     "localStorage": true,
-    "chrome": true
+    "chrome": true,
+    "jQuery": true
   }
 }

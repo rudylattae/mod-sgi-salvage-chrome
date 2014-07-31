@@ -4,26 +4,26 @@
   "version": "0.0.1",
   "description": "SGI Salvage bids with some tweaks and improvements.",
   "icons": {
-    "128": "icon.png",
-    "48": "icon.png",
-    "16": "icon.png"
+    "128": "img/icon.png",
+    "48": "img/icon.png",
+    "16": "img/icon.png"
   },
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["app/background.js"],
     "persistent": false
   },
   "browser_action": {
     "default_title": "Mod SGI Salvage",
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
+    "default_icon": "img/icon.png",
+    "default_popup": "app/popup.html"
   },
-  "options_page": "options.html",
+  "options_page": "app/options.html",
   "permissions": ["http://www.sgi.sk.ca/"],
   "content_scripts": [
     {
       "matches": ["http://www.sgi.sk.ca/salvage_bid/*"],
-      "css": ["style.css"],
-      "js": ["lib/jquery-2.1.1.js", "content.js"]
+      "css": ["theme/content.css"],
+      "js": ["lib/jquery-2.1.1.js", "app/content.js"]
     }
   ],
   "web_accessible_resources": [
