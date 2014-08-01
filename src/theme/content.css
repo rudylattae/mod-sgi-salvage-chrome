@@ -1,20 +1,20 @@
-#salvage_header #toggleModSgiSalvage {
-  cursor: pointer;
-  background-color: #ccc;
-  color: #333;
-  border-radius: 10px;
-  padding: 0.3em 0.5em;
+.mod--scan-view {
+  padding: 1em;
 }
-#salvage_header #toggleModSgiSalvage:hover {
-    background-color: #bfdfb3;
-    color: #333;
+
+  .mod--scan-view .mod--thumbnail {
+    display: inline-block;
+    margin-bottom: 0.5em;
+    margin-right: 0.5em;
   }
 
-
-#salvage_header #toggleModSgiSalvage.on {
-  background-color: #bfdfb3;
+.mod--main-tabs {
+  display: block;
+  margin: 0.5em 0 0 1em;
 }
-#salvage_header #toggleModSgiSalvage.on:hover {
-    background-color: #ccc;
-    color: #333;
+  .mod--main-tabs li {
+    display: inline-block;
+    padding: 0.2em;
+    border: 1px solid #999;
+    border-bottom: none; 
   }

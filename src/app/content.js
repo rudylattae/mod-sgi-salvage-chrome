@@ -97,8 +97,6 @@
       itemPhotoTemplate =
           '<div class="mod--thumbnail" target="_blank"> \
               <a href="{detailsUrl}" target="_blank"><img alt="loading..." src="{thumbnailUrl}" width="245"/></a> \
-              <span class="js-star-item star" data-stock-number="{stockNumber}" data-details-url="{detailsUrl}" \
-                  data-thumbnail-url="{thumbnailUrl}" title="Star item #{stockNumber}">&#x02605;</span> \
           </div>',
       stockNumberColumn,
       storeNameColumn;
@@ -135,6 +133,29 @@
     tableManager.init();
     tableManager.install( thumbnailMod );
     ready = true;
+
+    var appContainer = $('body'),
+      originalTableViewContainer = $('#salvageMainContent'),
+      scanViewElement = $('<div class="mod--scan-view"></div>').prependTo(appContainer),
+      thumbs = itemsTable.find('.mod--thumbnail').clone().appendTo(scanViewElement),
+      mainTabs = $('<ul class="mod--main-tabs"><li><a href="#scan">Scan</a></li><li><a href="#table">Table</a></li></ul>')
+        .prependTo(appContainer); 
+
+    function setActiveView(viewName) {
+      if (!viewName || viewName === '#scan') {
+        originalTableViewContainer.hide();
+        scanViewElement.show();
+      } else {
+
+        originalTableViewContainer.show();
+        scanViewElement.hide();
+      }
+    }
+
+    mainTabs.on('click', 'a', function() {
+      setActiveView($(this).attr('href'));
+    });
+    setActiveView();
   }
 
   init();
