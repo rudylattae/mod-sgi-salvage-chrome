@@ -23,6 +23,7 @@
   "globals": {
     "localStorage": true,
     "chrome": true,
-    "jQuery": true
+    "jQuery": true,
+    "Ractive": true
   }
 }
