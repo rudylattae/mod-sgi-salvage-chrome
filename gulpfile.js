@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp = require('gulp'),
-  tinylr = require('tiny-lr'),
   jshint = require('gulp-jshint'),
   zip = require('gulp-zip'),
   size = require('gulp-size'),
