@@ -159,4 +159,8 @@
   }
 
   init();
+
+
+  var tt = new core.TableRowIterator($('#bid_items'));
+  console.log( core );
 }());
