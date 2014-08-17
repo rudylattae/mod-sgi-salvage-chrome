@@ -1,0 +1,1024 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Salvage Vehicles and General Sales</title>
+<link href="/styles/main-autofund.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="/styles/salvage_styles.css" rel="stylesheet" type="text/css" media="screen" />
+<!--<link href="/styles/salvage_print.css" rel="stylesheet" type="text/css" media="print" />-->
+<!--<script language="JavaScript" type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>-->
+<script src="/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+<!--<link href="/js/table_sort/themes/sgi/style.css" rel="stylesheet" type="text/css" media="screen" />-->
+<!--<script language="JavaScript" type="text/javascript" src="/js/table_sort/jquery.tablesorter.js"></script>-->
+<!--<script language="JavaScript" type="text/javascript" src="/js/salvage_bid_items-jquery.js"></script>-->
+
+<script language="JavaScript" type="text/javascript">
+
+$(document).ready(function(){
+								   
+   $("#stoonDisclaim").hide();
+   
+   if ($("#store").val() == "SA") {
+	   		$("#stoonDisclaim").show();
+			$("#stoonDisclaim").html("<strong>Note</strong>: The compound is not open to view bid items prior to auction. Successful bidders will have the opportunity to inspect an item prior to confirming their purchase.");
+		};
+});
+
+function toggleInspec(inspecType) {
+			
+			if (inspecType != 0){
+				$("[class^='insp_']").hide();			
+				$(".insp_" + inspecType).show();
+				
+				$('.bidBox').each(function(){
+		  			$(this).val('');
+	   			});
+				
+				$("#bid_items").tablesorter({
+								widgets: ['zebra'],
+								//sortList: [[0,1]],
+								headers: { 8:{sorter: false}}
+						});
+			}
+			
+			if (inspecType == -1){
+				$("[class^='insp_']").show();
+				
+				$('.bidBox').each(function(){
+		  			$(this).val('');
+	   			});
+				
+				$("#bid_items").tablesorter({
+								widgets: ['zebra'],
+								//sortList: [[0,1]],
+								headers: { 8:{sorter: false}}
+						});
+				
+			}
+	};
+
+</script>
+
+<style type="text/css">
+	
+	#stoonDisclaim {
+		background-color: #F0F0F6;
+		height: 58px;
+		width: 400px;
+		float: right;
+		margin-right: 17px;
+		margin-top: 20px;
+		padding: 5px;
+	}
+</style>
+
+</head>
+
+<body>
+<div id="salvageMainContent">
+  <!-- <p>The SGI Salvage bid site <strong>will be closed for maintenance</strong> on Friday, August 12, 2011 from 11:00 PM to 1:30 AM. 
+We regret any inconvenience this may cause.</p> -->
+
+<div id="salvage_header">
+    <a href="/" target="_parent"><img src="/images/sgi_logo2.gif" alt="SGI" height="44" width="112" /></a>
+    <p id="links_right"> |
+        <a href="/salvage_bid/index.html" target="_parent">BACK TO SEARCH</a> |
+        <a href="/salvage_parts/salvage_frameset.html" target="_parent">FIND PARTS</a> |
+        <a href="/salvage_bid/change_pw.html" target="_parent">RESET PASSWORD</a> |
+        <a href="/salvage_sales/index.html" target="_parent">BACK TO SALVAGE</a> |
+        <a href="/salvage_bid/change_info.html" target="_parent">UPDATE ACCOUNT INFO</a> |
+    </p>
+</div>
+<!-- <p align="left">
+   <a class="headerLinks" href="/salvage_new/index.html" target="_top">Salvage Sales</a> /
+   <a class="headerLinks" href="/salvage_bid/index.html" target="_parent">Back to search</a>
+</p> -->
+
+ 
+    <div id="stoonDisclaim"></div>
+  <div class="main_container" >
+    <h1 class="results_hdr">List of Vehicles</h1>
+        
+	Filter by Inspection Types
+    <br /><br />
+    
+    <select onchange="toggleInspec(this.value)" id="inspecTypes" name="inspecTypes" class="input_borders">
+    	<option value="-1">Show All</option>
+        <option value="1">No Inspections Required</option>
+        <option value="2">Parts Only / Cannot Be Registered</option>
+        <option value="3">Requires Structural &amp; Mechanical Inspections</option>
+        <option value="4">Requires Mechanical Inspection</option>
+        <option value="5">Requires Mechanical Inspection / Not Branded</option>
+    </select>
+    <p>&nbsp;</p>
+    
+    <h4 id="searchedLocation"></h4>
+    <input type="hidden" name="stores" id="store" value="MJ" /> 
+       
+    <form id="vehicleSubmitForm" method="post" action="/lcgi/salvage_bid_site/pass_bid_to_login.cgi">
+      
+    
+      <div id="amount_err" class="errormsg"></div>
+      <div id="reserve_err" class="errormsg"></div>
+    
+      <table id="bid_items" class="tablesorter" border="0" cellpadding="2" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">Year</th>
+                    <th style="width: 10%;">Make</th>
+                    <th style="width: 10%;">Model</th>
+                    <th style="width: 10%;">Branch</th>
+                    <th style="width: 10%;">Location</th>
+                    <th style="width: 10%;">Stock Number</th>
+                    <th style="width: 10%;">Closing Date</th>
+                    <th style="width: 10%;">Reserve Price</th>
+                    <th style="width: 10%;">Enter Bid</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141206&amp;store=Moose Jaw" target="_blank">2013</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141206&amp;store=Moose Jaw" target="_blank">FORD-LINCOLN-MERCURY</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141206&amp;store=Moose Jaw" target="_blank">FORD FOCUS</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141206&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141206&amp;store=Moose Jaw" target="_blank">ROSETOWN - ROSETOWN COLOR & COLLISION</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141206&amp;store=Moose Jaw" target="_blank">M141206</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141206&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141206"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141206&amp;store=Moose Jaw" target="_blank">$2,500.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141206" name="M141206" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141340&amp;store=Moose Jaw" target="_blank">2013</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141340&amp;store=Moose Jaw" target="_blank">HONDA</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141340&amp;store=Moose Jaw" target="_blank">HONDA FIT</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141340&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141340&amp;store=Moose Jaw" target="_blank">SWIFT CURRENT - VIC'S AUTOMOTIVE</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141340&amp;store=Moose Jaw" target="_blank">M141340</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141340&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141340"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141340&amp;store=Moose Jaw" target="_blank">$2,000.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141340" name="M141340" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140540&amp;store=Moose Jaw" target="_blank">2012</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140540&amp;store=Moose Jaw" target="_blank">MAZDA MOTORS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140540&amp;store=Moose Jaw" target="_blank">MAZDA 3</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140540&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140540&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0001</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140540&amp;store=Moose Jaw" target="_blank">M140540</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140540&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M140540"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140540&amp;store=Moose Jaw" target="_blank">$9,000.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M140540" name="M140540" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141309&amp;store=Moose Jaw" target="_blank">2012</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141309&amp;store=Moose Jaw" target="_blank">HYUNDAI</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141309&amp;store=Moose Jaw" target="_blank">HYUNDAI ELANTRA</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141309&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141309&amp;store=Moose Jaw" target="_blank">ASSINIBOIA - CHUCK'S COLLISION</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141309&amp;store=Moose Jaw" target="_blank">M141309</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141309&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141309"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141309&amp;store=Moose Jaw" target="_blank">$2,500.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141309" name="M141309" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_2">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141357&amp;store=Moose Jaw" target="_blank">2012</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141357&amp;store=Moose Jaw" target="_blank">CHRYSLER TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141357&amp;store=Moose Jaw" target="_blank">DODGE PICKUP 1500 SERIES</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141357&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141357&amp;store=Moose Jaw" target="_blank">KINDERSLEY - SGI CLAIMS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141357&amp;store=Moose Jaw" target="_blank">M141357</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141357&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141357"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141357&amp;store=Moose Jaw" target="_blank">$2,000.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141357" name="M141357" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141276&amp;store=Moose Jaw" target="_blank">2010</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141276&amp;store=Moose Jaw" target="_blank">JEEP</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141276&amp;store=Moose Jaw" target="_blank">JEEP COMMANDER</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141276&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141276&amp;store=Moose Jaw" target="_blank">KINDERSLEY - KD TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141276&amp;store=Moose Jaw" target="_blank">M141276</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141276&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141276"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141276&amp;store=Moose Jaw" target="_blank">$1,200.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141276" name="M141276" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_1">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140739-A&amp;store=Moose Jaw" target="_blank">2010</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140739-A&amp;store=Moose Jaw" target="_blank">MISC PARTS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140739-A&amp;store=Moose Jaw" target="_blank">WHEELS AND TIRES</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140739-A&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140739-A&amp;store=Moose Jaw" target="_blank">MJ SALVAGE </a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140739-A&amp;store=Moose Jaw" target="_blank">M140739-A</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140739-A&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M140739-A"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140739-A&amp;store=Moose Jaw" target="_blank">$700.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M140739-A" name="M140739-A" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141188&amp;store=Moose Jaw" target="_blank">2009</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141188&amp;store=Moose Jaw" target="_blank">SATURN</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141188&amp;store=Moose Jaw" target="_blank">SATURN VUE</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141188&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141188&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0007</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141188&amp;store=Moose Jaw" target="_blank">M141188</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141188&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141188"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141188&amp;store=Moose Jaw" target="_blank">$3,000.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141188" name="M141188" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_2">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141271&amp;store=Moose Jaw" target="_blank">2009</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141271&amp;store=Moose Jaw" target="_blank">PONTIAC</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141271&amp;store=Moose Jaw" target="_blank">PONTIAC VIBE</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141271&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141271&amp;store=Moose Jaw" target="_blank">GRAVELBOURG - JASON'S AUTO COLLISION</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141271&amp;store=Moose Jaw" target="_blank">M141271</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141271&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141271"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141271&amp;store=Moose Jaw" target="_blank">$1,600.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141271" name="M141271" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_1">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141330&amp;store=Moose Jaw" target="_blank">2009</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141330&amp;store=Moose Jaw" target="_blank">RV CAMPER</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141330&amp;store=Moose Jaw" target="_blank">SABRE TRAVEL TRAILER</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141330&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141330&amp;store=Moose Jaw" target="_blank">KINDERSLEY - BOYCHUCK SALES</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141330&amp;store=Moose Jaw" target="_blank">M141330</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141330&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141330"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141330&amp;store=Moose Jaw" target="_blank">$7,500.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141330" name="M141330" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140849&amp;store=Moose Jaw" target="_blank">2008</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140849&amp;store=Moose Jaw" target="_blank">JEEP</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140849&amp;store=Moose Jaw" target="_blank">JEEP PATRIOT</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140849&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140849&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0039</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140849&amp;store=Moose Jaw" target="_blank">M140849</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140849&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M140849"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140849&amp;store=Moose Jaw" target="_blank">$1,600.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M140849" name="M140849" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141343&amp;store=Moose Jaw" target="_blank">2008</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141343&amp;store=Moose Jaw" target="_blank">FORD TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141343&amp;store=Moose Jaw" target="_blank">FORD RANGER </a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141343&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141343&amp;store=Moose Jaw" target="_blank">KINDERSLEY - KD TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141343&amp;store=Moose Jaw" target="_blank">M141343</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141343&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141343"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141343&amp;store=Moose Jaw" target="_blank">$2,500.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141343" name="M141343" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141165&amp;store=Moose Jaw" target="_blank">2006</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141165&amp;store=Moose Jaw" target="_blank">PONTIAC</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141165&amp;store=Moose Jaw" target="_blank">GRAND PRIX</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141165&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141165&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0016</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141165&amp;store=Moose Jaw" target="_blank">M141165</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141165&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141165"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141165&amp;store=Moose Jaw" target="_blank">$1,200.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141165" name="M141165" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141217&amp;store=Moose Jaw" target="_blank">2006</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141217&amp;store=Moose Jaw" target="_blank">CHRYSLER TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141217&amp;store=Moose Jaw" target="_blank">CHRYSLER PACIFICA</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141217&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141217&amp;store=Moose Jaw" target="_blank">KINDERSLEY - KD TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141217&amp;store=Moose Jaw" target="_blank">M141217</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141217&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141217"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141217&amp;store=Moose Jaw" target="_blank">$600.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141217" name="M141217" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141261&amp;store=Moose Jaw" target="_blank">2005</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141261&amp;store=Moose Jaw" target="_blank">FORD TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141261&amp;store=Moose Jaw" target="_blank">FORD FREESTAR</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141261&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141261&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0048</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141261&amp;store=Moose Jaw" target="_blank">M141261</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141261&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141261"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141261&amp;store=Moose Jaw" target="_blank">$400.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141261" name="M141261" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_1">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141333&amp;store=Moose Jaw" target="_blank">2005</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141333&amp;store=Moose Jaw" target="_blank">RV CAMPER</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141333&amp;store=Moose Jaw" target="_blank">JAY FLIGHT TRAVEL TRAILER</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141333&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141333&amp;store=Moose Jaw" target="_blank">WEYBURN - LOST CHILD TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141333&amp;store=Moose Jaw" target="_blank">M141333</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141333&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141333"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141333&amp;store=Moose Jaw" target="_blank">$3,000.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141333" name="M141333" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141223&amp;store=Moose Jaw" target="_blank">2004</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141223&amp;store=Moose Jaw" target="_blank">GM TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141223&amp;store=Moose Jaw" target="_blank">PONTIAC MONTANA VAN</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141223&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141223&amp;store=Moose Jaw" target="_blank">MENDHAM - SOUTHWEST AUTO</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141223&amp;store=Moose Jaw" target="_blank">M141223</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141223&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141223"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141223&amp;store=Moose Jaw" target="_blank">$200.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141223" name="M141223" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141273&amp;store=Moose Jaw" target="_blank">2004</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141273&amp;store=Moose Jaw" target="_blank">CHEVROLET</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141273&amp;store=Moose Jaw" target="_blank">CAVALIER</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141273&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141273&amp;store=Moose Jaw" target="_blank">WEYBURN - LOST CHILD TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141273&amp;store=Moose Jaw" target="_blank">M141273</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141273&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141273"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141273&amp;store=Moose Jaw" target="_blank">$150.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141273" name="M141273" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140816&amp;store=Moose Jaw" target="_blank">2003</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140816&amp;store=Moose Jaw" target="_blank">GM TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140816&amp;store=Moose Jaw" target="_blank">GMC SIERRA 1500 PICKUP</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140816&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140816&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0012</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140816&amp;store=Moose Jaw" target="_blank">M140816</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140816&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M140816"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140816&amp;store=Moose Jaw" target="_blank">$1,200.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M140816" name="M140816" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_4">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140847&amp;store=Moose Jaw" target="_blank">2003</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140847&amp;store=Moose Jaw" target="_blank">FORD TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140847&amp;store=Moose Jaw" target="_blank">FORD F250 SUPER DUTY PICKUP</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140847&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140847&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0050</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140847&amp;store=Moose Jaw" target="_blank">M140847</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140847&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M140847"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M140847&amp;store=Moose Jaw" target="_blank">$3,000.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M140847" name="M140847" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141187&amp;store=Moose Jaw" target="_blank">2003</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141187&amp;store=Moose Jaw" target="_blank">GM TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141187&amp;store=Moose Jaw" target="_blank">PONTIAC MONTANA VAN</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141187&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141187&amp;store=Moose Jaw" target="_blank">SCEPTRE - DOC BROWN & SONS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141187&amp;store=Moose Jaw" target="_blank">M141187</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141187&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141187"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141187&amp;store=Moose Jaw" target="_blank">$200.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141187" name="M141187" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141249&amp;store=Moose Jaw" target="_blank">2003</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141249&amp;store=Moose Jaw" target="_blank">CHRYSLER</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141249&amp;store=Moose Jaw" target="_blank">PT CRUISER</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141249&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141249&amp;store=Moose Jaw" target="_blank">ELROSE - GILES MIDTOWN AUTOBODY</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141249&amp;store=Moose Jaw" target="_blank">M141249</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141249&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141249"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141249&amp;store=Moose Jaw" target="_blank">$500.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141249" name="M141249" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141263&amp;store=Moose Jaw" target="_blank">2003</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141263&amp;store=Moose Jaw" target="_blank">FORD TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141263&amp;store=Moose Jaw" target="_blank">FORD ESCAPE</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141263&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141263&amp;store=Moose Jaw" target="_blank">SWIFT CURRENT - VIC'S AUTOMOTIVE</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141263&amp;store=Moose Jaw" target="_blank">M141263</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141263&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141263"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141263&amp;store=Moose Jaw" target="_blank">$600.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141263" name="M141263" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141283&amp;store=Moose Jaw" target="_blank">2003</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141283&amp;store=Moose Jaw" target="_blank">CHRYSLER</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141283&amp;store=Moose Jaw" target="_blank">NEON</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141283&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141283&amp;store=Moose Jaw" target="_blank">SWIFT CURRENT - VIC'S AUTOMOTIVE</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141283&amp;store=Moose Jaw" target="_blank">M141283</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141283&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141283"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141283&amp;store=Moose Jaw" target="_blank">$300.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141283" name="M141283" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141289&amp;store=Moose Jaw" target="_blank">2003</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141289&amp;store=Moose Jaw" target="_blank">GM TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141289&amp;store=Moose Jaw" target="_blank">CHEVROLET TRAIL BLAZER </a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141289&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141289&amp;store=Moose Jaw" target="_blank">WEYBURN - LOST CHILD TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141289&amp;store=Moose Jaw" target="_blank">M141289</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141289&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141289"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141289&amp;store=Moose Jaw" target="_blank">$400.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141289" name="M141289" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141325&amp;store=Moose Jaw" target="_blank">2003</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141325&amp;store=Moose Jaw" target="_blank">GM TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141325&amp;store=Moose Jaw" target="_blank">CHEVROLET 2500 SILVERADO PICKUP</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141325&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141325&amp;store=Moose Jaw" target="_blank">WEYBURN - LOST CHILD TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141325&amp;store=Moose Jaw" target="_blank">M141325</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141325&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141325"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141325&amp;store=Moose Jaw" target="_blank">$1,000.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141325" name="M141325" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141341&amp;store=Moose Jaw" target="_blank">2003</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141341&amp;store=Moose Jaw" target="_blank">FORD TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141341&amp;store=Moose Jaw" target="_blank">FORD WINDSTAR</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141341&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141341&amp;store=Moose Jaw" target="_blank">KINDERSLEY - SGI CLAIMS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141341&amp;store=Moose Jaw" target="_blank">M141341</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141341&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141341"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141341&amp;store=Moose Jaw" target="_blank">$400.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141341" name="M141341" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141346&amp;store=Moose Jaw" target="_blank">2003</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141346&amp;store=Moose Jaw" target="_blank">FORD TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141346&amp;store=Moose Jaw" target="_blank">FORD VAN E350</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141346&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141346&amp;store=Moose Jaw" target="_blank">MAPLE CREEK - SUNNY'S AUTOBODY</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141346&amp;store=Moose Jaw" target="_blank">M141346</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141346&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141346"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141346&amp;store=Moose Jaw" target="_blank">$500.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141346" name="M141346" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_4">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141363&amp;store=Moose Jaw" target="_blank">2003</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141363&amp;store=Moose Jaw" target="_blank">GM TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141363&amp;store=Moose Jaw" target="_blank">PONTIAC MONTANA VAN</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141363&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141363&amp;store=Moose Jaw" target="_blank">WEYBURN - TOP NOTCH TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141363&amp;store=Moose Jaw" target="_blank">M141363</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141363&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141363"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141363&amp;store=Moose Jaw" target="_blank">$500.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141363" name="M141363" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141161&amp;store=Moose Jaw" target="_blank">2002</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141161&amp;store=Moose Jaw" target="_blank">HONDA</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141161&amp;store=Moose Jaw" target="_blank">HONDA CIVIC </a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141161&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141161&amp;store=Moose Jaw" target="_blank">SWIFT CURRENT, SK VIC'S AUTOMOTIVE</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141161&amp;store=Moose Jaw" target="_blank">M141161</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141161&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141161"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141161&amp;store=Moose Jaw" target="_blank">$450.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141161" name="M141161" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141178&amp;store=Moose Jaw" target="_blank">2002</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141178&amp;store=Moose Jaw" target="_blank">HONDA</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141178&amp;store=Moose Jaw" target="_blank">HONDA CIVIC </a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141178&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141178&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0026</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141178&amp;store=Moose Jaw" target="_blank">M141178</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141178&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141178"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141178&amp;store=Moose Jaw" target="_blank">$600.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141178" name="M141178" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141227&amp;store=Moose Jaw" target="_blank">2002</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141227&amp;store=Moose Jaw" target="_blank">HONDA</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141227&amp;store=Moose Jaw" target="_blank">HONDA CIVIC </a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141227&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141227&amp;store=Moose Jaw" target="_blank">ASSINIBOIA - HELLAND BROS AUTOBODY</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141227&amp;store=Moose Jaw" target="_blank">M141227</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141227&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141227"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141227&amp;store=Moose Jaw" target="_blank">$300.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141227" name="M141227" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141319&amp;store=Moose Jaw" target="_blank">2002</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141319&amp;store=Moose Jaw" target="_blank">GM TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141319&amp;store=Moose Jaw" target="_blank">CHEVROLET VENTURE</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141319&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141319&amp;store=Moose Jaw" target="_blank">AVONLEA - NELSON COLLISION</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141319&amp;store=Moose Jaw" target="_blank">M141319</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141319&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141319"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141319&amp;store=Moose Jaw" target="_blank">$400.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141319" name="M141319" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141339&amp;store=Moose Jaw" target="_blank">2002</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141339&amp;store=Moose Jaw" target="_blank">CHEVROLET</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141339&amp;store=Moose Jaw" target="_blank">MALIBU</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141339&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141339&amp;store=Moose Jaw" target="_blank">WEYBURN - LOST CHILD TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141339&amp;store=Moose Jaw" target="_blank">M141339</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141339&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141339"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141339&amp;store=Moose Jaw" target="_blank">$500.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141339" name="M141339" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141345&amp;store=Moose Jaw" target="_blank">2002</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141345&amp;store=Moose Jaw" target="_blank">CHRYSLER</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141345&amp;store=Moose Jaw" target="_blank">DODGE INTREPID</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141345&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141345&amp;store=Moose Jaw" target="_blank">RADVILLE - RIVERSIDE AUTOBODY</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141345&amp;store=Moose Jaw" target="_blank">M141345</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141345&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141345"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141345&amp;store=Moose Jaw" target="_blank">$400.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141345" name="M141345" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_1">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14031&amp;store=Moose Jaw" target="_blank">2002</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14031&amp;store=Moose Jaw" target="_blank">AGRICULTURAL</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14031&amp;store=Moose Jaw" target="_blank">VAULT GRAIN BIN</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14031&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14031&amp;store=Moose Jaw" target="_blank">ASSINIBOIA (NEAR)</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14031&amp;store=Moose Jaw" target="_blank">MG14031</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14031&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_MG14031"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14031&amp;store=Moose Jaw" target="_blank">$500.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="MG14031" name="MG14031" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141144&amp;store=Moose Jaw" target="_blank">2001</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141144&amp;store=Moose Jaw" target="_blank">HYUNDAI</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141144&amp;store=Moose Jaw" target="_blank">HYUNDAI TIBURON</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141144&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141144&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0035</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141144&amp;store=Moose Jaw" target="_blank">M141144</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141144&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141144"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141144&amp;store=Moose Jaw" target="_blank">$400.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141144" name="M141144" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141230&amp;store=Moose Jaw" target="_blank">2001</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141230&amp;store=Moose Jaw" target="_blank">CHRYSLER</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141230&amp;store=Moose Jaw" target="_blank">DODGE CARAVAN</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141230&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141230&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0019</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141230&amp;store=Moose Jaw" target="_blank">M141230</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141230&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141230"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141230&amp;store=Moose Jaw" target="_blank">$200.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141230" name="M141230" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141348&amp;store=Moose Jaw" target="_blank">2001</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141348&amp;store=Moose Jaw" target="_blank">CHRYSLER</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141348&amp;store=Moose Jaw" target="_blank">DODGE INTREPID</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141348&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141348&amp;store=Moose Jaw" target="_blank">WEYBURN - LOST CHILD TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141348&amp;store=Moose Jaw" target="_blank">M141348</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141348&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141348"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141348&amp;store=Moose Jaw" target="_blank">$400.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141348" name="M141348" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141351&amp;store=Moose Jaw" target="_blank">2001</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141351&amp;store=Moose Jaw" target="_blank">VOLKSWAGEN</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141351&amp;store=Moose Jaw" target="_blank">VOLKSWAGEN JETTA</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141351&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141351&amp;store=Moose Jaw" target="_blank">ASSINIBOIA - CHUCK'S COLLISION</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141351&amp;store=Moose Jaw" target="_blank">M141351</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141351&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141351"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141351&amp;store=Moose Jaw" target="_blank">$400.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141351" name="M141351" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141324&amp;store=Moose Jaw" target="_blank">2000</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141324&amp;store=Moose Jaw" target="_blank">FORD TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141324&amp;store=Moose Jaw" target="_blank">FORD F350 SUPER DUTY PICKUP</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141324&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141324&amp;store=Moose Jaw" target="_blank">KINDERSLEY - KD TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141324&amp;store=Moose Jaw" target="_blank">M141324</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141324&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141324"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141324&amp;store=Moose Jaw" target="_blank">$5,000.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141324" name="M141324" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141352&amp;store=Moose Jaw" target="_blank">2000</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141352&amp;store=Moose Jaw" target="_blank">CHEVROLET</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141352&amp;store=Moose Jaw" target="_blank">MALIBU</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141352&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141352&amp;store=Moose Jaw" target="_blank">PONTEIX - RAY'S AUTOBODY</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141352&amp;store=Moose Jaw" target="_blank">M141352</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141352&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141352"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141352&amp;store=Moose Jaw" target="_blank">$400.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141352" name="M141352" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141251&amp;store=Moose Jaw" target="_blank">1999</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141251&amp;store=Moose Jaw" target="_blank">TOYOTA</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141251&amp;store=Moose Jaw" target="_blank">TOYOTA SOLARA</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141251&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141251&amp;store=Moose Jaw" target="_blank">ASSINIBOIA - HELLAND BROS AUTOBODY</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141251&amp;store=Moose Jaw" target="_blank">M141251</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141251&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141251"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141251&amp;store=Moose Jaw" target="_blank">$300.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141251" name="M141251" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141326&amp;store=Moose Jaw" target="_blank">1999</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141326&amp;store=Moose Jaw" target="_blank">PONTIAC</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141326&amp;store=Moose Jaw" target="_blank">PONTIAC SUNFIRE</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141326&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141326&amp;store=Moose Jaw" target="_blank">HODGEVILLE - WELL DONE AUTOBODY</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141326&amp;store=Moose Jaw" target="_blank">M141326</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141326&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141326"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141326&amp;store=Moose Jaw" target="_blank">$150.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141326" name="M141326" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141350&amp;store=Moose Jaw" target="_blank">1999</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141350&amp;store=Moose Jaw" target="_blank">PONTIAC</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141350&amp;store=Moose Jaw" target="_blank">PONTIAC SUNFIRE</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141350&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141350&amp;store=Moose Jaw" target="_blank">BIGGAR - 1ST AVENUE COLLISION</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141350&amp;store=Moose Jaw" target="_blank">M141350</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141350&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141350"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141350&amp;store=Moose Jaw" target="_blank">$400.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141350" name="M141350" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141237&amp;store=Moose Jaw" target="_blank">1998</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141237&amp;store=Moose Jaw" target="_blank">FORD-LINCOLN-MERCURY</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141237&amp;store=Moose Jaw" target="_blank">FORD TAURUS</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141237&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141237&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0025</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141237&amp;store=Moose Jaw" target="_blank">M141237</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141237&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141237"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141237&amp;store=Moose Jaw" target="_blank">$200.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141237" name="M141237" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_1">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141327&amp;store=Moose Jaw" target="_blank">1998</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141327&amp;store=Moose Jaw" target="_blank">RV CAMPER</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141327&amp;store=Moose Jaw" target="_blank">COLEMAN TENT TRAILER</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141327&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141327&amp;store=Moose Jaw" target="_blank">SWIFT CURRENT - VIC'S AUTOMOTIVE</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141327&amp;store=Moose Jaw" target="_blank">M141327</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141327&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141327"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141327&amp;store=Moose Jaw" target="_blank">$500.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141327" name="M141327" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141332&amp;store=Moose Jaw" target="_blank">1998</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141332&amp;store=Moose Jaw" target="_blank">GM TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141332&amp;store=Moose Jaw" target="_blank">CHEVROLET VENTURE</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141332&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141332&amp;store=Moose Jaw" target="_blank">WEYBURN - LOST CHILD TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141332&amp;store=Moose Jaw" target="_blank">M141332</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141332&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141332"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141332&amp;store=Moose Jaw" target="_blank">$200.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141332" name="M141332" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141270&amp;store=Moose Jaw" target="_blank">1997</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141270&amp;store=Moose Jaw" target="_blank">HONDA</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141270&amp;store=Moose Jaw" target="_blank">HONDA CRV</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141270&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141270&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0013</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141270&amp;store=Moose Jaw" target="_blank">M141270</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141270&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141270"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141270&amp;store=Moose Jaw" target="_blank">$500.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141270" name="M141270" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141342&amp;store=Moose Jaw" target="_blank">1997</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141342&amp;store=Moose Jaw" target="_blank">CHRYSLER TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141342&amp;store=Moose Jaw" target="_blank">DODGE PICKUP 2500 SERIES</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141342&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141342&amp;store=Moose Jaw" target="_blank">WEYBURN - TOP NOTCH TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141342&amp;store=Moose Jaw" target="_blank">M141342</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141342&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141342"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141342&amp;store=Moose Jaw" target="_blank">$1,000.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141342" name="M141342" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141344&amp;store=Moose Jaw" target="_blank">1996</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141344&amp;store=Moose Jaw" target="_blank">TOYOTA</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141344&amp;store=Moose Jaw" target="_blank">TOYOTA COROLLA </a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141344&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141344&amp;store=Moose Jaw" target="_blank">Saskatoon SGI Salvage  N25</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141344&amp;store=Moose Jaw" target="_blank">M141344</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141344&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141344"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141344&amp;store=Moose Jaw" target="_blank">$100.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141344" name="M141344" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_1">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14027&amp;store=Moose Jaw" target="_blank">1996</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14027&amp;store=Moose Jaw" target="_blank">CATERPILLAR</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14027&amp;store=Moose Jaw" target="_blank">416B BACKHOE</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14027&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14027&amp;store=Moose Jaw" target="_blank">NEAR GULL LAKE SK</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14027&amp;store=Moose Jaw" target="_blank">MG14027</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14027&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_MG14027"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14027&amp;store=Moose Jaw" target="_blank">$5,000.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="MG14027" name="MG14027" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141310&amp;store=Moose Jaw" target="_blank">1995</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141310&amp;store=Moose Jaw" target="_blank">CHEVROLET</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141310&amp;store=Moose Jaw" target="_blank">LUMINA </a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141310&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141310&amp;store=Moose Jaw" target="_blank">KINDERSLEY - KD TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141310&amp;store=Moose Jaw" target="_blank">M141310</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141310&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141310"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141310&amp;store=Moose Jaw" target="_blank">$75.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141310" name="M141310" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141347&amp;store=Moose Jaw" target="_blank">1995</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141347&amp;store=Moose Jaw" target="_blank">TOYOTA</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141347&amp;store=Moose Jaw" target="_blank">TOYOTA CAMRY</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141347&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141347&amp;store=Moose Jaw" target="_blank">KINDERSLEY - KD TOWING</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141347&amp;store=Moose Jaw" target="_blank">M141347</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141347&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141347"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141347&amp;store=Moose Jaw" target="_blank">$300.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141347" name="M141347" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141274&amp;store=Moose Jaw" target="_blank">1994</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141274&amp;store=Moose Jaw" target="_blank">FORD TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141274&amp;store=Moose Jaw" target="_blank">FORD RANGER </a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141274&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141274&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0042</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141274&amp;store=Moose Jaw" target="_blank">M141274</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141274&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141274"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141274&amp;store=Moose Jaw" target="_blank">$200.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141274" name="M141274" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_1">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14032&amp;store=Moose Jaw" target="_blank">1994</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14032&amp;store=Moose Jaw" target="_blank">AGRICULTURAL</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14032&amp;store=Moose Jaw" target="_blank">WHITE COMBINE</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14032&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14032&amp;store=Moose Jaw" target="_blank">SWIFT CURRENT - FULL LINE AGRO</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14032&amp;store=Moose Jaw" target="_blank">MG14032</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14032&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_MG14032"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14032&amp;store=Moose Jaw" target="_blank">$5,000.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="MG14032" name="MG14032" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_3">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141331&amp;store=Moose Jaw" target="_blank">1992</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141331&amp;store=Moose Jaw" target="_blank">FORD TRUCKS</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141331&amp;store=Moose Jaw" target="_blank">FORD PICKUP F150 SERIES</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141331&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141331&amp;store=Moose Jaw" target="_blank">BENGOUGH - ESCO AUTOBODY</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141331&amp;store=Moose Jaw" target="_blank">M141331</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141331&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141331"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141331&amp;store=Moose Jaw" target="_blank">$400.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141331" name="M141331" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_1">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141321&amp;store=Moose Jaw" target="_blank">1991</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141321&amp;store=Moose Jaw" target="_blank">RV CAMPER</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141321&amp;store=Moose Jaw" target="_blank">TERRY 5TH WHEEL</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141321&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141321&amp;store=Moose Jaw" target="_blank">MJ SALVAGE B0200</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141321&amp;store=Moose Jaw" target="_blank">M141321</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141321&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_M141321"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=M141321&amp;store=Moose Jaw" target="_blank">$3,000.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="M141321" name="M141321" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_1">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14033&amp;store=Moose Jaw" target="_blank">1980</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14033&amp;store=Moose Jaw" target="_blank">AGRICULTURAL</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14033&amp;store=Moose Jaw" target="_blank">IHC SWATHER</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14033&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14033&amp;store=Moose Jaw" target="_blank">GLENBAIN (NEAR)</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14033&amp;store=Moose Jaw" target="_blank">MG14033</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14033&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_MG14033"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14033&amp;store=Moose Jaw" target="_blank">$500.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="MG14033" name="MG14033" type="text" /></td>
+                </tr>
+             
+                <tr class="insp_1">                	               	                
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14035&amp;store=Moose Jaw" target="_blank">1978</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14035&amp;store=Moose Jaw" target="_blank">AGRICULTURAL</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14035&amp;store=Moose Jaw" target="_blank">JOHN DEERE TRACTOR</a></td>
+                    
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14035&amp;store=Moose Jaw" target="_blank">Moose Jaw</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14035&amp;store=Moose Jaw" target="_blank">MAPLE CREEK - JAY DEE ENT.</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14035&amp;store=Moose Jaw" target="_blank">MG14035</a></td>
+                    <td><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14035&amp;store=Moose Jaw" target="_blank">Aug 06 2014</a></td>
+                    <td id="rPrice_MG14035"><a href="/lcgi/salvage_bid_site/comp_details.cgi?stock_num=MG14035&amp;store=Moose Jaw" target="_blank">$6,000.00</a></td>
+                    
+                    <td>$<input width="90px;" class="bidBox input_borders" tabindex="" id="MG14035" name="MG14035" type="text" /></td>
+                </tr>
+             
+            </tbody>    
+        </table>
+        <!--<div class="salvfooter" style="position: fixed; padding-bottom: 120px; border-top: 1px solid gray;">-->
+        	<p class="button_right" style="margin:7px 20px 1.5em 0;"><input class="button" type="submit" id="vehicleSubmit" value="Proceed to check-out" /></p>
+        <!--</div>-->
+      	</form>
+                
+	</div>
+   
+    <!--<div class="salvfooter">    -->
+		<div id="salvage_footer">
+	<p><strong>Call any of our branches toll free.</strong><br />
+       <a href="/online_services/locators/salvage/regina.html" target="_parent">Regina</a>: 1-800-667-3664 |
+       <a href="/online_services/locators/salvage/saskatoon.html" target="_parent">Saskatoon</a>: 1-800-667-3973 |
+       <a href="/online_services/locators/salvage/moosejaw.html" target="_parent">Moose Jaw</a>: 1-800-667-5133 |
+       <a href="/online_services/locators/salvage/yorkton.html" target="_parent">Yorkton</a>: 1-800-667-1482 |
+       <a href="/online_services/locators/salvage/northbattleford.html" target="_parent">North Battleford</a>: 1-800-667-1322
+    </p>
+</div>
+<script src="/js/webtrends.js" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+var _tag=new WebTrends();
+_tag.dcsGetId();
+//]]>
+</script>
+<script type="text/javascript">
+//<![CDATA[
+_tag.dcsCustom=function(){
+}
+_tag.dcsCollect();
+//]]>
+</script>
+<noscript>
+<div><img alt="DCSIMG" id="DCSIMG" width="1" height="1" src="//webcollector.sgi.sk.ca/dcstvlk1z1h4oqq4021m2hzes_3x1y/njs.gif?dcsuri=/nojavascript&amp;WT.js=No&amp;WT.tv=9.4.0&amp;dcssip=www.sgi.sk.ca"/></div>
+</noscript>
+
+   <!-- </div> -->
+</div>
+
+<!--script language="JavaScript" type="text/javascript" src="/js/salvage_bid_items-jquery.js"></script-->
+<script language="JavaScript" type="text/javascript" src="/js/core.js"></script
+</body>
+</html>

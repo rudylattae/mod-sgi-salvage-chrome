@@ -9,7 +9,7 @@
 
   var ready = false,                  // flag if global initialization has been completed
     ls = nsls('mod-sgi-cars');      // namespaced localStorage wrapper
-      
+  
   
   var db = {
     _items: [],

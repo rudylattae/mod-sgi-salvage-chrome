@@ -16,6 +16,7 @@ var paths = {
   src: './src',
   app: './src/app',
   dist: './dist',
+  sandbox: './sandbox',
   allFiles: '/**/*',
   scriptFiles: '/**/*.js'
 };
@@ -30,18 +31,15 @@ gulp.task('lint', function() {
 
 // develop
 // ========
+gulp.task('update-sandbox', ['lint'], function() {
+      // Copy JavaScript to sandbox
+    return gulp.src([paths.app + '/core.js'])
+        .pipe(gulp.dest(paths.sandbox + '/js'));
+});
+
 
 gulp.task('dev', function () {
-  var lr = tinylr();
-
-  lr.listen(35729);
-  gulp.watch(['**.{js,css,html}'], function (evt) {
-    lr.changed({
-      body: {
-        files: [evt.path]
-      }
-    });
-  });
+  gulp.watch([paths.app + paths.allFiles], ['update-sandbox']);
 });
 
 
