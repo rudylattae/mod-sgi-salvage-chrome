@@ -8,6 +8,14 @@ var core = (function() {
         this._cursor = 1;
         this._columns = ['year', 'make', 'model', 'branch', 'location', 'stockNumber', 
                             'closingDate', 'reservePrice'];
+        this._extra = {
+            year: {
+                columnName: 'detailUrl',
+                element: 'a',
+                source: 'attr',
+                value: 'href'
+            }
+        }
 
         if ( $('tr', this._el).length === 0 && logger && logger.warn ) 
             logger.warn('The provided table does not have any rows');
@@ -37,7 +45,14 @@ var core = (function() {
 
         for (; i < max; i++) {
             serialized[this._columns[i]] = cells[i].innerText;
+            var metaData = this._extra[this._columns[i]];            
+            
+            if (metaData) {
+                var extraData = $(cells[i]).find(metaData.element).attr('href');
+                serialized[metaData.columnName] = extraData;
+            }
         }
+
         return serialized;
     };
 

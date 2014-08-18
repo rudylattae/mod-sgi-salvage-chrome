@@ -1019,6 +1019,12 @@ _tag.dcsCollect();
 </div>
 
 <!--script language="JavaScript" type="text/javascript" src="/js/salvage_bid_items-jquery.js"></script-->
-<script language="JavaScript" type="text/javascript" src="/js/core.js"></script
+<script language="JavaScript" type="text/javascript" src="/js/core.js"></script>
+<script type="text/javascript">
+items = [];
+t = new core.TableRowIterator($('#bid_items'));
+while (t.hasNext()) {items.push(t.next())}
+console.log(items[0]);
+</script>
 </body>
 </html>
