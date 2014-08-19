@@ -1,5 +1,11 @@
-var core = (function() {
-    "use strict";
+(function(g) {
+    'use strict';
+
+    // imports
+    var $ = jQuery;
+
+    // exports
+    var api;
 
 
     function TableRowIterator( el, logger ) {
@@ -15,7 +21,7 @@ var core = (function() {
                 source: 'attr',
                 value: 'href'
             }
-        }
+        };
 
         if ( $('tr', this._el).length === 0 && logger && logger.warn ) 
             logger.warn('The provided table does not have any rows');
@@ -148,9 +154,11 @@ var core = (function() {
     };
 
 
-    return {
+    api = {
         TableRowIterator: TableRowIterator,
         GenericRepository: GenericRepository,
         ItemSummaryImporter: ItemSummaryImporter
     };
-})();
+
+    g.core = g.core || api;
+})(this);
