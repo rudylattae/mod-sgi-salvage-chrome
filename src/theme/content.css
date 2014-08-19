@@ -2,23 +2,70 @@
   display: none;
 }
 
-.mod--scan-view {
-  padding: 1em;
-}
-
-.mod--scan-item {
-  display: inline-block;
-  margin-bottom: 0.5em;
-  margin-right: 0.5em;
-}
 
 .mod--main-tabs {
   display: block;
-  margin: 0.5em 0 0 1em;
+  margin: 0.5rem 0 0 1rem;
 }
   .mod--main-tabs li {
     display: inline-block;
-    padding: 0.2em;
+    padding: 0.2rem;
     border: 1px solid #999;
     border-bottom: none; 
+  }
+
+
+.mod--scan-view {
+  padding: 1rem 0.5rem 1rem 1rem;
+}
+
+.mod-scan-view * {
+  box-sizing: border-box;
+}
+
+
+.scan-item {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+  position: relative;
+  color: #555;
+  font-size: 0.8rem;
+}
+
+.scan-item:hover {
+  color: #333;
+}
+
+  .scan-item--thumbnail {
+    border: 2px solid #ccc;
+    width: 245px;
+    height: 184px;
+    background-size: contain;
+  }
+
+  .scan-item--highlight {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: 2px solid #fff;
+    background-color: rgba(255, 255, 255, 0.8);
+    height: 15px;
+    width: 35%;
+    overflow: hidden;
+    font-size: 1rem;
+    padding: 0.1rem;
+    font-weight: bold;
+    text-align: right;
+  }
+
+  .scan-item--summary {
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.6);
+    width: 100%;
+    height: 30px;
+    overflow: hidden;
+    font-size: 0.85rem;
+    padding: 0.2rem;
   }

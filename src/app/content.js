@@ -38,7 +38,15 @@
     var items = [],
       template = '\
         {{#items}}\
-          <div class="mod--scan-item">Item {{make}} {{model}} {{year}}</div>\
+          <div class="scan-item">\
+            <a href="{{detailUrl}}" title="Click for details" target="_blank">\
+              <div class="scan-item--thumbnail"\
+                style="background-image: url(/images/salvage_images/{{stockNumber}}/main/1.jpg)">\
+              </div>\
+            </a>\
+            <div class="scan-item--highlight">{{reservePrice}}</div>\
+            <div class="scan-item--summary">{{year}} {{model}}</div>\
+          </div>\
         {{/items}}\
       ',
       tt = new TableRowIterator( itemsTable ),
