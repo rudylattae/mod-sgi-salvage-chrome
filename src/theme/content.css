@@ -6,11 +6,11 @@
   padding: 1em;
 }
 
-  .mod--scan-view .mod--thumbnail {
-    display: inline-block;
-    margin-bottom: 0.5em;
-    margin-right: 0.5em;
-  }
+.mod--scan-item {
+  display: inline-block;
+  margin-bottom: 0.5em;
+  margin-right: 0.5em;
+}
 
 .mod--main-tabs {
   display: block;
