@@ -19,7 +19,6 @@
         originalTableViewContainer.hide();
         scanViewElement.show();
       } else {
-
         originalTableViewContainer.show();
         scanViewElement.hide();
       }
@@ -28,7 +27,7 @@
     mainTabs.on('click', 'a', function() {
       setActiveView($(this).attr('href'));
     });
-    setActiveView();
+    //setActiveView();
   }
 
   init();
