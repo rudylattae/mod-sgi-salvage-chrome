@@ -52,15 +52,15 @@
       tt = new TableRowIterator( itemsTable ),
       vm;
 
-    while ( tt.hasNext() ) {
-      items.push( tt.next() );
-    }
-
     vm = new Ractive({
       el: scanViewElement,
       template: template,
       data: { items: items }
     });
+
+    while ( tt.hasNext() ) {
+      items.push( tt.next() );
+    }
   }
 
 
