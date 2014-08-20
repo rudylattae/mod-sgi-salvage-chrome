@@ -58,10 +58,20 @@
       data: { items: items }
     });
 
-    while ( tt.hasNext() ) {
-      items.push( tt.next() );
+    setTimeout(processItems, 25);
+    function processItems() {
+      var start = Date.now();
+      while ( tt.hasNext() && (Date.now() - start < 20) ) {
+        items.push( tt.next() );
+      }
+
+      if ( tt.hasNext() ) {
+        setTimeout( processItems, 25 );
+      }
     }
   }
+
+
 
 
   // Initialization
