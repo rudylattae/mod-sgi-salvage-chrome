@@ -44,7 +44,7 @@
                 style="background-image: url(/images/salvage_images/{{stockNumber}}/main/1.jpg)">\
               </div>\
             </a>\
-            <div class="scan-item--highlight">{{reservePrice}}</div>\
+            <div class="scan-item--highlight" title="Reserve price">{{reservePrice}}</div>\
             <div class="scan-item--summary">{{year}} {{model}}</div>\
           </div>\
         {{/items}}\
