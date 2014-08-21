@@ -9,7 +9,8 @@
   var itemsTable = $('#bid_items').length > 0 ? $('#bid_items') : $('#bid_results'),
     appContainer = $('body'),
     originalTableViewContainer = $('#salvageMainContent'),
-    scanViewElement = $('<div class="mod--scan-view"></div>').prependTo( appContainer );
+    scanViewElement = $('<div class="mod--scan-view"></div>').prependTo( appContainer ),
+    _items = [];
 
 
   // Tabs
@@ -33,51 +34,59 @@
   }
 
 
+  // Scan Item Component
+  var scanItemTemplate = '\
+    <div class="scan-item">\
+      <a href="{{detailUrl}}" title="Click for details" target="_blank">\
+        <div class="scan-item--thumbnail"\
+          style="background-image: url(/images/salvage_images/{{stockNumber}}/main/1.jpg)">\
+        </div>\
+      </a>\
+      <div class="scan-item--highlight" title="Reserve price">{{reservePrice}}</div>\
+      <div class="scan-item--summary">{{year}} {{model}}</div>\
+    </div>\
+  ';
+
+  var ScanItem = Ractive.extend({
+    template: scanItemTemplate,
+  });
+
+
   // Scan View
-  function createScanView() {
-    var items = [],
-      template = '\
-        {{#items}}\
-          <div class="scan-item">\
-            <a href="{{detailUrl}}" title="Click for details" target="_blank">\
-              <div class="scan-item--thumbnail"\
-                style="background-image: url(/images/salvage_images/{{stockNumber}}/main/1.jpg)">\
-              </div>\
-            </a>\
-            <div class="scan-item--highlight" title="Reserve price">{{reservePrice}}</div>\
-            <div class="scan-item--summary">{{year}} {{model}}</div>\
-          </div>\
-        {{/items}}\
-      ',
-      tt = new TableRowIterator( itemsTable ),
-      vm;
+  var scanViewTemplate = '\
+    {{#items}}\
+      <scan-item>\
+    {{/items}}\
+  ';
 
-    vm = new Ractive({
-      el: scanViewElement,
-      template: template,
-      data: { items: items }
-    });
-
-    setTimeout(processItems, 25);
-    function processItems() {
-      var start = Date.now();
-      while ( tt.hasNext() && (Date.now() - start < 20) ) {
-        items.push( tt.next() );
-      }
-
-      if ( tt.hasNext() ) {
-        setTimeout( processItems, 25 );
-      }
+  var scanView = new Ractive({
+    el: scanViewElement,
+    template: scanViewTemplate,
+    data: { items: _items },
+    components: {
+      'scan-item': ScanItem
     }
-  }
-
+  });
 
 
 
   // Initialization
   function init() {
+    var tableDataSource = new TableRowIterator( itemsTable );
+
+    function importItemsFromTableData() {
+      var start = Date.now();
+      while ( tableDataSource.hasNext() && (Date.now() - start < 20) ) {
+        _items.push( tableDataSource.next() );
+      }
+
+      if ( tableDataSource.hasNext() ) {
+        setTimeout( importItemsFromTableData, 25 );
+      }
+    }
+
     wireupTabs();
-    createScanView();
+    setTimeout(importItemsFromTableData, 25);
   }
 
 
