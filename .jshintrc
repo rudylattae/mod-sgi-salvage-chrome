@@ -16,11 +16,11 @@
   "latedef": "nofunc",
   "quotmark": "single",
   "indent": 2,
+  "devel": true,
+  "browser": true,
   "node": true,
   "multistr": true,
   "globals": {
-    "window": true,
-    "document": true,
     "localStorage": true,
     "chrome": true,
     "jQuery": true
