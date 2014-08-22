@@ -2,60 +2,8 @@
   'use strict';
 
   // imports
-<<<<<<< HEAD
-<<<<<<< HEAD
-  var $ = jQuery,
-    tofu = function(a,c){return a.replace(/{ *([^} ]+) *}/g,function(b,a){b=c;a.replace(/[^.]+/g,function(a){b=b[a]});return b})},
-    nsls = function(e){"use strict";function t(e,t){return e+"-"+t}function r(r,n){if(!r||""===r)throw new Error("You must provide a non-empty namespace");n=n||{};var o=n.storageAdapter||e.localStorage,m={setItem:function(e,n){o.setItem(t(r,e),n)},getItem:function(e){return o.getItem(t(r,e))},removeItem:function(e){o.removeItem(t(r,e))}};return m.set=m.setItem,m.get=m.getItem,m.remove=m.removeItem,m}return r}(window);
-
-
-<<<<<<< HEAD
-  var ready = false,                  // flag if global initialization has been completed
-    ls = nsls('mod-sgi-cars');      // namespaced localStorage wrapper
-      
-=======
-  var ls = nsls('mod-sgi-cars');      // namespaced localStorage wrapper
-  
->>>>>>> fb74460... Moving away from previous style of modding the bid items table directly
-  
-  var db = {
-    _items: [],
-
-    init: function() {
-      if (this._items.length === 0) {
-        var data = JSON.parse( ls.get('items') );
-        this._items = data || [];
-      }
-    },
-
-    all: function() {
-        return this._items;
-    },
-
-    add: function ( item ){
-      this._items.unshift( item );
-      ls.set('items', JSON.stringify( this._items ));
-    },
-
-    has: function( item ) {
-      var i = 0,
-        z = this._items.length;
-      for (; i < z; i++) {
-        if (this._items[i].stockNumber === item.stockNumber) 
-          return true;
-      }
-      return false;
-    }
-  };
-  db.init();
-
-=======
-  var $ = jQuery;
->>>>>>> a549a21... Remove all non-essentials
-=======
   var $ = jQuery,
     TableRowIterator = core.TableRowIterator;
->>>>>>> b45222a... Cleanup jslint warnings
 
 
   var itemsTable = $('#bid_items').length > 0 ? $('#bid_items') : $('#bid_results'),
@@ -124,7 +72,6 @@
       'scan-item': ScanItem
     }
   });
-
 
 
   // Initialization
