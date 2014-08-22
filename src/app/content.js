@@ -36,14 +36,19 @@
 
   // Scan Item Component
   var scanItemTemplate = '\
-    <div class="scan-item">\
+    <div class="scan-item scan-item--side-summary">\
       <a href="{{detailUrl}}" title="Click for details" target="_blank">\
-        <div class="scan-item--thumbnail"\
+        <div class="scan-item__thumbnail"\
           style="background-image: url(/images/salvage_images/{{stockNumber}}/main/1.jpg)">\
         </div>\
       </a>\
-      <div class="scan-item--highlight" title="Reserve price">{{reservePrice}}</div>\
-      <div class="scan-item--summary">{{year}} {{model}}</div>\
+      <div class="scan-item__summary">\
+        <span class="scan-item__summary__datum reserve-price" title="Reserve price">{{reservePrice}}</span>\
+        <span class="scan-item__summary__datum year-model">{{year}} {{model}}</span>\
+        <span class="scan-item__summary__datum closing-date" title="Closing date">{{closingDate}}</span>\
+        <span class="scan-item__summary__datum location" title="Branch and location">{{branch}} ({{location}})</span>\
+        <span class="scan-item__summary__datum stock-number" title="Stock number">#{{stockNumber}}</span>\
+      </div>\
     </div>\
   ';
 

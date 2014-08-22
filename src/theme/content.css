@@ -17,6 +17,7 @@
 
 .mod--scan-view {
   padding: 1rem 0.5rem 1rem 1rem;
+  background-color: #111;
 }
 
 .mod--scan-view, .mod--scan-view * {
@@ -29,49 +30,81 @@
   margin-bottom: 1rem;
   margin-right: 1rem;
   position: relative;
-  color: #555;
+  color: #ccc;
   font-size: 0.8rem;
   width: 15.8rem;
   height: 12rem;
   /*width: 245px;
   height: 184px;*/
-  border: 2px solid #ccc;
+  border: 2px solid #777;
   padding: 0;
+  background-color: #555;
 }
 
   .scan-item:hover {
-    color: #333;
-    border-color: #777;
+    color: #eee;
+    background-color: #333;
+    border-color: #ccc;
   }
 
-.scan-item--thumbnail {
-  width: 100%;
-  height: 100%;
-  background: no-repeat 50% 50%;
-  background-size: contain;
+  .scan-item__thumbnail {
+    width: 100%;
+    height: 100%;
+    background: no-repeat 50% 50%;
+    background-size: contain;
+  }
+
+  .scan-item__summary {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    overflow: hidden;
+    font-size: 0.8rem;
+    padding: 0.1rem;
+  }
+    .scan-item__summary__datum {
+      font-size: 0.7rem;
+    }
+    .scan-item__summary__datum.reserve-price {
+      font-size: 1rem;
+      color: #fff;
+    }
+    .scan-item__summary__datum.year-model,
+    .scan-item__summary__datum.closing-date {
+      font-size: 0.85rem;
+    }
+
+
+.scan-item--side-summary {
+  width: 23rem;
 }
 
-.scan-item--highlight {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.8);
-  width: 35%;
-  overflow: hidden;
-  font-size: 1rem;
-  padding: 0.1rem;
-  font-weight: bold;
-  text-align: right;
-  border: 2px solid #fff;
-}
+  .scan-item--side-summary .scan-item__thumbnail {
+    background-position: 0;
+  }
 
-.scan-item--summary {
-  position: absolute;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.6);
-  width: 100%;
-  height: 30px;
-  overflow: hidden;
-  font-size: 0.8rem;
-  padding: 0.1rem;
-}
+  .scan-item--side-summary .scan-item__highlight {
+    top: inherit;
+    right: inherit;
+    bottom: 0.5rem;
+    left: 0.5rem;
+  }
+
+  .scan-item--side-summary .scan-item__summary {
+    width: 30%;
+    height: 100%;
+    right: 0;
+    top: 0;
+  }
+    .scan-item--side-summary .scan-item__summary__datum {
+      display: block;
+    }
+    .scan-item--side-summary .scan-item__summary__datum.reserve-price {
+      margin-bottom: 0.5rem;
+    }
+    .scan-item--side-summary .scan-item__summary .year-model,
+    .scan-item--side-summary .scan-item__summary .closing-date {
+      margin-bottom: 0.5rem;
+    }
+
