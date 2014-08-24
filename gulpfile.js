@@ -37,7 +37,7 @@ gulp.task('update-sandbox', ['lint'], function() {
 });
 
 
-gulp.task('dev', function () {
+gulp.task('dev', ['lint'], function () {
   gulp.watch([paths.app + paths.allFiles], ['update-sandbox']);
 });
 
