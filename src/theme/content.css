@@ -1,3 +1,7 @@
+body {
+  min-width: 890px;
+}
+
 .main_container {
   display: none;
 }
@@ -51,22 +55,23 @@
   }
 
 
-.mod--scan-view {
-  padding: 1rem 0.5rem 1rem 1rem;
-  background-color: #111;
-}
-
 .mod--scan-view, .mod--scan-view * {
   box-sizing: border-box;
 }
 
+.mod--scan-view {
+  padding: 0.5rem 0;
+  background-color: #111;
+  display: flex;
+  flex-flow: row wrap;
+}
+
 
 .scan-item {
-  display: inline-block;
-  margin-bottom: 1rem;
-  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0.5rem;
   position: relative;
-  color: #ccc;
+  color: #999;
   font-size: 0.8rem;
   width: 15.8rem;
   height: 12rem;
@@ -76,7 +81,6 @@
   padding: 0;
   background-color: #555;
 }
-
   .scan-item:hover {
     color: #eee;
     background-color: #333;
@@ -104,11 +108,9 @@
     }
     .scan-item__summary__datum.reserve-price {
       font-size: 1rem;
-      color: #fff;
     }
-    .scan-item__summary__datum.year-model,
     .scan-item__summary__datum.closing-date {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
 
 
@@ -118,13 +120,6 @@
 
   .scan-item--side-summary .scan-item__thumbnail {
     background-position: 0;
-  }
-
-  .scan-item--side-summary .scan-item__highlight {
-    top: inherit;
-    right: inherit;
-    bottom: 0.5rem;
-    left: 0.5rem;
   }
 
   .scan-item--side-summary .scan-item__summary {

@@ -58,8 +58,8 @@
       </a>\
       <div class="scan-item__summary">\
         <span class="scan-item__summary__datum reserve-price" title="Reserve price">{{reservePrice}}</span>\
-        <span class="scan-item__summary__datum year-model">{{year}} {{model}}</span>\
         <span class="scan-item__summary__datum closing-date" title="Closing date">{{closingDate}}</span>\
+        <span class="scan-item__summary__datum year-model">{{year}} {{model}}</span>\
         <span class="scan-item__summary__datum location" title="Branch and location">{{branch}} ({{location}})</span>\
         <span class="scan-item__summary__datum stock-number" title="Stock number">#{{stockNumber}}</span>\
       </div>\
