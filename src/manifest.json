@@ -23,7 +23,7 @@
     {
       "matches": ["http://www.sgi.sk.ca/salvage_bid/*"],
       "css": ["theme/content.css"],
-      "js": ["lib/ractive.min.js", "lib/jquery-2.1.1.js", "app/core.js", "app/content.js"]
+      "js": ["lib/rlite.js","lib/ractive.min.js", "lib/jquery-2.1.1.js", "app/core.js", "app/content.js"]
     }
   ],
   "web_accessible_resources": [
