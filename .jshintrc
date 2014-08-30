@@ -24,6 +24,8 @@
     "localStorage": true,
     "chrome": true,
     "jQuery": true,
-    "Ractive": true
+    "Ractive": true,
+    "core": true,
+    "Rlite": true
   }
 }
