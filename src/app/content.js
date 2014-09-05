@@ -71,6 +71,30 @@
   });
 
 
+  // Saskatoon disclaimer hack
+  function stoonDisclaimerWrapper(disclaimerElement, storeCode) {
+    if ( !disclaimerElement ) {
+      return {
+        hide: function() {},
+        show: function() {}
+      };
+    }
+
+    return {
+      hide: function() {
+        if ( storeCode === 'SA' ) {
+          disclaimerElement.hide();
+        }
+      },
+
+      show: function() {
+        if ( storeCode === 'SA' ) {
+          disclaimerElement.show();
+        }
+      }
+    };
+  }
+
 
   // =============================================
   // Views
@@ -123,7 +147,8 @@
       scanView = createScanView(),
       router = new Rlite(),
       itemsTable = $('#bid_items').length > 0 ? $('#bid_items') : $('#bid_results'),
-      tableDataSource = new TableRowIterator( itemsTable );
+      tableDataSource = new TableRowIterator( itemsTable ),
+      stoonDisclaimer = stoonDisclaimerWrapper( $('#stoonDisclaim'), $("#store").val() );
 
     function importItemsFromTableData() {
       var start = Date.now();
@@ -145,12 +170,14 @@
       mainMenu.setSelectedTab('#/scan');
       $('.mod--scan-view').show();
       $('.main_container').hide();
+      stoonDisclaimer.hide();
     });
 
     router.add('bid', function() {
       mainMenu.setSelectedTab('#/bid');
       $('.main_container').show();
       $('.mod--scan-view').hide();
+      stoonDisclaimer.show();
     });
 
     // process hash changed events
