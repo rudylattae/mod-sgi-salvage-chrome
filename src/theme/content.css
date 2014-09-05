@@ -1,3 +1,15 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('chrome-extension://__MSG_@@extension_id__/font/Open Sans.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+body {
+  min-width: 890px;
+}
+
 .main_container {
   display: none;
 }
@@ -39,34 +51,25 @@
   }
 
 
-.mod--main-tabs {
-  display: block;
-  margin: 0.5rem 0 0 1rem;
-}
-  .mod--main-tabs li {
-    display: inline-block;
-    padding: 0.2rem;
-    border: 1px solid #999;
-    border-bottom: none;
-  }
-
-
-.mod--scan-view {
-  padding: 1rem 0.5rem 1rem 1rem;
-  background-color: #111;
-}
-
+/* Scan View */
 .mod--scan-view, .mod--scan-view * {
   box-sizing: border-box;
 }
 
+.mod--scan-view {
+  padding: 0.5rem 0;
+  background-color: #111;
+  display: flex;
+  flex-flow: row wrap;
+  font-family: 'Open Sans', sans-serif;
+}
+
 
 .scan-item {
-  display: inline-block;
-  margin-bottom: 1rem;
-  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0.5rem;
   position: relative;
-  color: #ccc;
+  color: #999;
   font-size: 0.8rem;
   width: 15.8rem;
   height: 12rem;
@@ -76,7 +79,6 @@
   padding: 0;
   background-color: #555;
 }
-
   .scan-item:hover {
     color: #eee;
     background-color: #333;
@@ -104,11 +106,9 @@
     }
     .scan-item__summary__datum.reserve-price {
       font-size: 1rem;
-      color: #fff;
     }
-    .scan-item__summary__datum.year-model,
     .scan-item__summary__datum.closing-date {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
 
 
@@ -118,13 +118,6 @@
 
   .scan-item--side-summary .scan-item__thumbnail {
     background-position: 0;
-  }
-
-  .scan-item--side-summary .scan-item__highlight {
-    top: inherit;
-    right: inherit;
-    bottom: 0.5rem;
-    left: 0.5rem;
   }
 
   .scan-item--side-summary .scan-item__summary {

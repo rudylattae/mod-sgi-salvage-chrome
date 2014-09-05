@@ -27,6 +27,6 @@
     }
   ],
   "web_accessible_resources": [
-    "templates/*.html"
+    "font/*.woff2"
   ]
 }
