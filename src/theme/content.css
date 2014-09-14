@@ -6,10 +6,6 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
-body {
-  min-width: 890px;
-}
-
 .main_container {
   display: none;
 }
@@ -18,8 +14,9 @@ body {
 /* Autre Tabs component */
 .autre-tabs {
   display: inline-block;
-  height: 2rem; 
+  height: 2.7rem; 
   font-size: 1.2rem;
+  padding-top: 0.8rem;
 }
 .autre-tabs, .autre-tabs * {
   -webkit-box-sizing: border-box;
@@ -28,8 +25,7 @@ body {
 }
   .autre-tabs__tab {
     height: 100%;
-    padding: 0.8rem 0.4rem 0 0.4rem;
-    margin: 0;
+    padding: 0.2rem 0.4rem 0 0.4rem;
     display: inline-block;
     border-bottom: 0 solid #aaa;
     font-family: inherit;
@@ -49,7 +45,16 @@ body {
   .autre-tabs__tab:hover {
     border-bottom: 0.45rem solid #aaa;
   }
-
+  #salvage_header .autre-tabs a {
+    color: #777;
+  }
+  #salvage_header .autre-tabs a:hover {
+    color: #555;
+  }
+  #salvage_header .autre-tabs a.autre-tabs__tab.selected {
+    color: #333;
+    border-bottom-color: #ffcc66;
+  }
 
 /* Scan View */
 .mod--scan-view, .mod--scan-view * {
@@ -57,24 +62,22 @@ body {
 }
 
 .mod--scan-view {
-  padding: 0.5rem 0;
+  padding: 0.5rem 0.5rem 0 0.5rem;
   background-color: #111;
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-around;
   font-family: 'Open Sans', sans-serif;
 }
 
 
 .scan-item {
   margin-bottom: 0.5rem;
-  margin-left: 0.5rem;
   position: relative;
   color: #999;
   font-size: 0.8rem;
-  width: 15.8rem;
-  height: 12rem;
-  /*width: 245px;
-  height: 184px;*/
+  width: 100%;
+  height: 10rem;
   border: 2px solid #555;
   padding: 0;
   background-color: #333;
@@ -86,7 +89,7 @@ body {
   }
 
   .scan-item__thumbnail {
-    width: 100%;
+    width: 60%;
     height: 100%;
     background: no-repeat 50% 50%;
     background-size: contain;
@@ -94,9 +97,10 @@ body {
 
   .scan-item__summary {
     position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 30px;
+    right: 0;
+    top: 0;
+    width: 40%;
+    height: 100%;
     overflow: hidden;
     font-size: 0.8rem;
     padding: 0.1rem;
@@ -111,71 +115,73 @@ body {
       font-size: 0.8rem;
     }
 
-
-.scan-item--side-summary {
-  width: 23rem;
-}
-
   .scan-item--side-summary .scan-item__thumbnail {
     background-position: 0;
   }
 
-  .scan-item--side-summary .scan-item__summary {
-    width: 30%;
-    height: 100%;
-    right: 0;
-    top: 0;
+  .scan-item--side-summary .scan-item__summary__datum {
+    display: block;
   }
-    .scan-item--side-summary .scan-item__summary__datum {
-      display: block;
-    }
-    .scan-item--side-summary .scan-item__summary__datum.reserve-price {
-      margin-bottom: 0.5rem;
-    }
-    .scan-item--side-summary .scan-item__summary .year-model,
-    .scan-item--side-summary .scan-item__summary .closing-date {
-      margin-bottom: 0.5rem;
-    }
+  .scan-item--side-summary .scan-item__summary__datum.reserve-price {
+    margin-bottom: 0.5rem;
+  }
+  .scan-item--side-summary .scan-item__summary .year-model,
+  .scan-item--side-summary .scan-item__summary .closing-date {
+    margin-bottom: 0.5rem;
+  }
 
 
-/* Layout List of Vehicles page */
+/* Layout */
 
 #salvageMainContent #salvage_header {
-  height: 3rem;
   border-bottom: 2px solid #ffcc66;
   box-sizing: border-box;
 }
-
 #salvage_header * {
   box-sizing: border-box;
 }
-
-#salvage_header > a {
-  display: inline-block;
-  float: left;
+#salvage_header {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: flex-end;
 }
-
 #salvage_header p#links_right {
-  display: inline-block;
-  height: 100%;
-  padding-top: 1.55rem;
-  padding-right: 65px;
-  padding-left: 1rem;
-  float: right;
+  margin: 0;
+  padding: 0.5rem 0.5rem 0 0.5rem;
+  padding-right: 4rem;
+  text-align: left;
 }
 
-#salvage_header .autre-tabs a {
-  color: #777;
-}
-#salvage_header .autre-tabs a:hover {
-  color: #555;
-}
-#salvage_header .autre-tabs a.autre-tabs__tab.selected {
-  color: #333;
-  border-bottom-color: #ffcc66;
+
+@media only screen and (min-width : 726px) {
+  /* scan items @2up */
+  .scan-item--side-summary {
+    width: 49%;
+  }
 }
 
-.autre-tabs.main-menu {
-  height: 3rem;
-  margin-left: 1rem;
+
+@media only screen and (min-width : 866px) {
+  /* all header links on one row */
+  #salvage_header p#links_right {
+    flex-grow: 2;
+    text-align: right;
+  }
+}
+
+
+@media only screen and (min-width : 1090px) {
+  /* scan items @3up */
+  .scan-item--side-summary {
+    width: 32.8%;
+  }
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1524px) {
+  /* scan items @n-up */
+  .scan-item--side-summary {
+    width: 23rem;
+  }
 }
