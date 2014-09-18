@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Mod SGI Salvage",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "SGI Salvage bids with some tweaks and improvements.",
   "icons": {
     "128": "img/icon.png",
