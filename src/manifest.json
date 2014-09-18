@@ -21,7 +21,7 @@
   "permissions": ["http://www.sgi.sk.ca/"],
   "content_scripts": [
     {
-      "matches": ["http://www.sgi.sk.ca/salvage_bid/*"],
+      "matches": ["http://www.sgi.sk.ca/salvage_bid/*_search.html"],
       "css": ["theme/content.css"],
       "js": ["lib/rlite.js","lib/ractive.min.js", "lib/jquery-2.1.1.js", "app/core.js", "app/content.js"]
     }

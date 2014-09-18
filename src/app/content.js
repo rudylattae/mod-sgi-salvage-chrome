@@ -62,6 +62,9 @@
         <span class="scan-item__summary__datum year-model">{{year}} {{model}}</span>\
         <span class="scan-item__summary__datum location" title="Branch and location">{{branch}} ({{location}})</span>\
         <span class="scan-item__summary__datum stock-number" title="Stock number">#{{stockNumber}}</span>\
+        <span class="scan-item__actions" title="Stock number">\
+          <a href="#/bid/{{stockNumber}}" class="bid-now-action" title="Bid on #{{stockNumber}}">Bid Now!</a>\
+        </span>\
       </div>\
     </div>\
   ';
@@ -148,7 +151,8 @@
       router = new Rlite(),
       itemsTable = $('#bid_items').length > 0 ? $('#bid_items') : $('#bid_results'),
       tableDataSource = new TableRowIterator( itemsTable ),
-      stoonDisclaimer = stoonDisclaimerWrapper( $('#stoonDisclaim'), $("#store").val() );
+      stoonDisclaimer = stoonDisclaimerWrapper( $('#stoonDisclaim'), $("#store").val() ),
+      highlightedItemId;
 
     function importItemsFromTableData() {
       var start = Date.now();
@@ -158,6 +162,27 @@
 
       if ( tableDataSource.hasNext() ) {
         setTimeout( importItemsFromTableData, 25 );
+      }
+    }
+
+    function highlightItemRow(stockNumber) {
+      var priceElementId = '#rPrice_' + stockNumber,
+          priceElement,
+          itemRow;
+
+      clearHighlightedItem();
+      priceElement = $(priceElementId);
+      if (priceElement.length) {
+        itemRow = priceElement.parent();
+        itemRow.addClass('highlighted');
+        itemRow[0].scrollIntoView();
+        highlightedItemId = priceElementId;        
+      }
+    }
+
+    function clearHighlightedItem() {
+      if ( highlightedItemId ) {
+        $(highlightedItemId).parent().removeClass('highlighted');
       }
     }
 
@@ -177,7 +202,18 @@
       mainMenu.setSelectedTab('#/bid');
       $('.main_container').show();
       $('.mod--scan-view').hide();
+      clearHighlightedItem();
       stoonDisclaimer.show();
+    });
+
+    router.add('bid/:stockNumber', function(req) {
+      var stockNumber = req.params.stockNumber;
+
+      mainMenu.setSelectedTab('#/bid');
+      $('.main_container').show();
+      $('.mod--scan-view').hide();
+      stoonDisclaimer.show();
+      highlightItemRow(stockNumber);
     });
 
     // process hash changed events

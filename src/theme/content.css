@@ -11,6 +11,12 @@
 }
 
 
+table.tablesorter tbody tr.highlighted td,
+table.tablesorter tbody tr.highlighted.odd td,
+table.tablesorter tbody tr.highlighted.even td {
+  background-color: #81F781;
+}
+
 /* Autre Tabs component */
 .autre-tabs {
   display: inline-block;
@@ -102,6 +108,7 @@
     width: 40%;
     height: 100%;
     overflow: hidden;
+    overflow-y: auto;
     font-size: 0.8rem;
     padding: 0.1rem;
   }
@@ -114,6 +121,22 @@
     .scan-item__summary__datum.closing-date {
       font-size: 0.8rem;
     }
+    .scan-item__actions {
+      display: block;
+      margin-top: 0.8rem;
+      font-size: 0.6rem;
+    }
+    .scan-item__actions .bid-now-action {
+      padding: 0.2rem;
+      border-radius: 5px;
+      text-decoration: none;
+      background-color: #555;
+      color: #aaa;
+    }
+    .scan-item__actions .bid-now-action:hover {
+      background-color: #ffcc66;
+      color: #333;
+    }
 
   .scan-item--side-summary .scan-item__thumbnail {
     background-position: 0;
@@ -123,11 +146,11 @@
     display: block;
   }
   .scan-item--side-summary .scan-item__summary__datum.reserve-price {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
   }
   .scan-item--side-summary .scan-item__summary .year-model,
   .scan-item--side-summary .scan-item__summary .closing-date {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
   }
 
 
