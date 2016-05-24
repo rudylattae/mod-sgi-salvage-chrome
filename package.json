@@ -1,6 +1,6 @@
 {
   "name": "mod-sgi-salvage-chrome",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "SGI Salvage bids with some tweaks and improvements.",
   "main": "index.js",
   "scripts": {
